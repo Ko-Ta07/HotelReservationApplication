@@ -1,0 +1,28 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+<div class="text-center my-5">
+    <div class="mb-5">
+        <h1>宿泊施設一覧</h1>
+    </div>
+    <div class="row">
+        {% for hotel in hotel_data %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card img-thumbnail hotellist mb-3">
+                    <img src="{{ hotel.image.url }}" alt="" class="card-img-top card-thum">
+                    <div class="card-body text-center px-2 py-3">
+                        <h5 class="font-weight-bold">{{ hotel.name }}</h5>
+                        <p>{{ hotel.address }}</p>
+                        <p>{{ hotel.tel }}</p>
+                    </div>
+                    <a href="{% url 'staff' hotel.pk %}" class="stretched-link"></a>
+                </div>
+            </div>
+        {% empty %}
+            <p>まだ施設がありません</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
