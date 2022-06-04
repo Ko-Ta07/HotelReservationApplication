@@ -39,7 +39,7 @@ class Room(models.Model):
     outdoor_bath = models.BooleanField(verbose_name='露天風呂',default=True)
     
     def __str__(self):
-        return self.hotel
+        return self.name
 
 # 宿泊プランモデルクラス
 class BookingPlan(models.Model):
@@ -56,10 +56,19 @@ class BookingPlan(models.Model):
     
 # 予約フォームモデルクラス
 class Booking(models.Model):
+    CHECKINTIME_CHOICES = [('9:00', 'ただのラベルで、画面に出すやつ'), ('10:00', '10:00'), ('11:00', '11:00'),]
+    PREF_CHOICES = [
+        (1, '北海道'),
+        (2, ''),
+        (3, ''),
+        (4, ''),
+        (47, '沖縄'),
+    ]
+
     stayplan = models.ForeignKey(BookingPlan, verbose_name='宿泊プラン', on_delete=models.CASCADE)
     checkindate = models.DateField(verbose_name='チェックイン日')
     stay = models.IntegerField(verbose_name='泊数')
-    checkintime = models.TimeField(verbose_name='チェックイン予定時間')
+    checkintime = models.TimeField(verbose_name='チェックイン予定時間', choices=CHECKINTIME_CHOICES)
     number_of_rooms = models.IntegerField(verbose_name='部屋数')
     number_of_guests = models.IntegerField(verbose_name='宿泊人数')
     first_name = models.CharField('宿泊者氏名(姓)', max_length=100)
@@ -67,13 +76,13 @@ class Booking(models.Model):
     first_name_kana = models.CharField('宿泊者氏名(姓カナ)', max_length=100)
     last_name_kana = models.CharField('宿泊者氏名(名カナ)', max_length=100)
     post = models.CharField('住所(郵便番号)', max_length=10)
-    prefecture = models.IntegerField(verbose_name='住所(都道府県)')
+    prefecture = models.IntegerField(verbose_name='住所(都道府県)', choices=PREF_CHOICES)
     address = models.CharField('住所(市町村名・番地)', max_length=100)
     tel = models.CharField('電話番号', max_length=15)
     age = models.IntegerField(verbose_name='年代')
     email = models.EmailField(verbose_name='メールアドレス')
     remarks = models.TextField('その他備考欄', default='', blank=True)
-   #loginuser = models.Foreignkey()  紐づけ先が分からないので一旦コメントアウト
-   
+    loginuser = models.ForeignKey(CustomUser, blank=True, null=True, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.stayplan
