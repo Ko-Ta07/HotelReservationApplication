@@ -1,8 +1,5 @@
-from cProfile import label
-from distutils.command.upload import upload
 from accounts.models import CustomUser
 from django.db import models
-from django.utils import timezone
 
 # 宿泊施設情報モデルクラス
 class Hotel(models.Model):
