@@ -87,7 +87,7 @@ class Booking(models.Model):
     age = models.IntegerField(verbose_name='年代', choices=AGE_CHOICES)
     email = models.EmailField(verbose_name='メールアドレス')
     remarks = models.TextField('その他備考欄', default='', blank=True)
-    loginuser = models.Foreignkey(CustomUser, blank=True, null=True, on_delete=models.CASCADE) 
+    loginuser = models.ForeignKey(CustomUser, blank=True, null=True, on_delete=models.CASCADE) 
    
     def __str__(self):
         return self.stayplan
