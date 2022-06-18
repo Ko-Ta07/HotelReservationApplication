@@ -29,7 +29,7 @@ class Room(models.Model):
     outdoor_bath = models.BooleanField(verbose_name='露天風呂',default=True)
     
     def __str__(self):
-        return self.name
+        return f'{self.name}（{self.hotel}）'
 
 # 宿泊プランモデルクラス
 class BookingPlan(models.Model):
