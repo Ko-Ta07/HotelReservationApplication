@@ -2,15 +2,60 @@
 
 {% block content %}
 
-<div class="text-center my-5">
-    <div class="mb-5">
+<div class="my-5">
+    <div class="mb-5 text-center">
         <h1>宿泊プラン</h1>
     </div>
-    <div class="row">
+    <div>
         {% for plan in object_list %}
-            <div class="col-lg-3 col-md-6">
+
+        <div class="card mb-3">
+            <div class="card-header">{{ plan.planname }}</div>
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{{ plan.image.url }}" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  <p class="card-text">【予約受付期間】{{ plan.start_reception }}〜{{ plan.end_reception }}</p>
+                  <p class="card-text"><small class="text-muted"></small></p>
+                </div>
+              </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>部屋タイプ・詳細</th>
+                        <th>大人1名(税込)</th>
+                        <th>合計(税込)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room in plan.room.all %}
+                    <tr>
+                        <td>
+                            <a href="#">
+                                <img src="{{ room.image.url }}" style="width:60px;">
+                                {{ room.name }}    
+                            </a>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+          </div>
+
+          {% comment %}
+            <div>
                 <div class="card img-thumbnail planlist mb-3">
-                    <img src="{{ plan.image.url }}" alt="" class="card-img-top card-thum">
+                    <img src="{{ plan.image.url }}" alt="" class="card-img-top card-thum" style="width:300px;">
                     <div class="card-body text-center px-2 py-3">
                         <h5 class="font-weight-bold">{{ plan.planname }}</h5>
                         <p>{{ plan.description|linebreaksbr }}</p>
@@ -18,6 +63,7 @@
                     </div>
                 </div>
             </div>
+          {% endcomment %}
         {% endfor %}
     </div>
 </div>
