@@ -1,0 +1,25 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+<div class="text-center my-5">
+    <div class="mb-5">
+        <h1>宿泊プラン</h1>
+    </div>
+    <div class="row">
+        {% for plan in object_list %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card img-thumbnail planlist mb-3">
+                    <img src="{{ plan.image.url }}" alt="" class="card-img-top card-thum">
+                    <div class="card-body text-center px-2 py-3">
+                        <h5 class="font-weight-bold">{{ plan.planname }}</h5>
+                        <p>{{ plan.description|linebreaksbr }}</p>
+                        <p>{{ plan.roomcharge }} 円</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -7,16 +7,16 @@
         <h1>宿泊施設一覧</h1>
     </div>
     <div class="row">
-        {% for hotel in hotel_data %}
+        {% for hotel in object_list %}
             <div class="col-lg-3 col-md-6">
                 <div class="card img-thumbnail hotellist mb-3">
                     <img src="{{ hotel.image.url }}" alt="" class="card-img-top card-thum">
                     <div class="card-body text-center px-2 py-3">
                         <h5 class="font-weight-bold">{{ hotel.name }}</h5>
-                        <p>{{ hotel.address }}</p>
-                        <p>{{ hotel.tel }}</p>
+                        <p>住所: {{ hotel.address }}</p>
+                        <p>電話番号: {{ hotel.tel }}</p>
                     </div>
-                    <a href="" class="stretched-link"></a>
+                    <a href="{% url 'plan' hotel.pk %}" class="stretched-link"></a>
                 </div>
             </div>
         {% empty %}

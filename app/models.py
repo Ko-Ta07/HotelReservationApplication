@@ -18,17 +18,18 @@ class Hotel(models.Model):
   
 # 部屋タイプモデルクラス
 class Room(models.Model):
+    ROOMTYPE_CHOICES = [(1,'シングル'), (2,'ツイン'), (3,'ダブル'), (4,'キング')]
     hotel = models.ForeignKey(Hotel, verbose_name='宿泊施設名称',on_delete=models.CASCADE)
-    roomtype = models.IntegerField(verbose_name='部屋のタイプ')
+    roomtype = models.IntegerField(verbose_name='部屋のタイプ', choices=ROOMTYPE_CHOICES)
     image = models.ImageField(upload_to='images', verbose_name='部屋イメージ画像', null=True, blank=True)
-    name = models.CharField('宿泊者氏名',max_length=100)
+    name = models.CharField('部屋名',max_length=100)
     number_of_guest = models.IntegerField(verbose_name='宿泊人数')
     roomcharge = models.IntegerField(verbose_name='金額')
     no_smoking = models.BooleanField(verbose_name='禁煙ルーム',default=True)
     outdoor_bath = models.BooleanField(verbose_name='露天風呂',default=True)
     
     def __str__(self):
-        return self.hotel
+        return self.name
 
 # 宿泊プランモデルクラス
 class BookingPlan(models.Model):
@@ -37,7 +38,7 @@ class BookingPlan(models.Model):
     roomcharge = models.IntegerField(verbose_name='金額')
     start_reception = models.DateField(verbose_name='受付開始日')
     end_reception = models.DateField(verbose_name='受付終了日')
-    image = models.ImageField(upload_to='images', verbose_name='部屋イメージ画像', null=True, blank=True)
+    image = models.ImageField(upload_to='images', verbose_name='プランイメージ画像', null=True, blank=True)
     room = models.ManyToManyField(Room, blank=True)    
     
     def __str__(self):
