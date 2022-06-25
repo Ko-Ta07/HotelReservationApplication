@@ -24,18 +24,21 @@ class Room(models.Model):
     image = models.ImageField(upload_to='images', verbose_name='部屋イメージ画像', null=True, blank=True)
     name = models.CharField('部屋名',max_length=100)
     number_of_guest = models.IntegerField(verbose_name='宿泊人数')
-    roomcharge = models.IntegerField(verbose_name='金額')
+    roomcharge = models.IntegerField(verbose_name='大人1名(税込)')
+    total_amount = models.IntegerField(verbose_name='合計(税込)', default=None, null=True)
     no_smoking = models.BooleanField(verbose_name='禁煙ルーム',default=True)
     outdoor_bath = models.BooleanField(verbose_name='露天風呂',default=True)
     
     def __str__(self):
-        return self.name
+        return f'{self.name}（{self.hotel}）' 
 
 # 宿泊プランモデルクラス
 class BookingPlan(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, default=None, null=True)
     planname = models.CharField('プラン名', max_length=100)
     description = models.TextField('プラン説明', default='')
-    roomcharge = models.IntegerField(verbose_name='金額')
+    roomcharge = models.IntegerField(verbose_name='大人1名(税込)')
+    total_amount = models.IntegerField(verbose_name='合計(税込)', default=None, null=True)
     start_reception = models.DateField(verbose_name='受付開始日')
     end_reception = models.DateField(verbose_name='受付終了日')
     image = models.ImageField(upload_to='images', verbose_name='プランイメージ画像', null=True, blank=True)

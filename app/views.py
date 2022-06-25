@@ -18,5 +18,6 @@ class HotelView(ListView):
     
 class PlanView(ListView):
     template_name = 'app/plan.html'
-    model = BookingPlan
-        
+    
+    def get_queryset(self):
+        return BookingPlan.objects.filter(hotel__pk=self.kwargs['pk'])   
