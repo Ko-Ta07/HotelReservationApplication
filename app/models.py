@@ -34,8 +34,13 @@ class Room(models.Model):
 
 # 宿泊プランモデルクラス
 class BookingPlan(models.Model):
+    MEAL_CHOICES = [(1,'食事なし'), (2,'朝のみ'), (3,'朝・夕')]
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, default=None, null=True)
     planname = models.CharField('プラン名', max_length=100)
+    meal = models.IntegerField(verbose_name='食事', choices=MEAL_CHOICES, default=1)
+    checkin = models.TimeField(verbose_name='チェックイン', default='15:00')
+    checkout = models.TimeField(verbose_name='チェックアウト', default='11:00')
+    short_description = models.TextField('プラン概要', default='')
     description = models.TextField('プラン説明', default='')
     roomcharge = models.IntegerField(verbose_name='大人1名(税込)')
     total_amount = models.IntegerField(verbose_name='合計(税込)', default=None, null=True)
