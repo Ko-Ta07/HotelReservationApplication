@@ -101,3 +101,9 @@ main {
     height: 250px;
     object-fit: contain;
 }
+
+.p-mealType__value {
+    border: 1px solid #918b8a;
+    color:#918b8a;
+    padding:0 4px;
+}
