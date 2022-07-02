@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,5 @@ ACCOUNT_USERNAME_REQUIRED = False
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+NUMBER_GROUPING = 3

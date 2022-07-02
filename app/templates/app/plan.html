@@ -1,4 +1,5 @@
 {% extends 'app/base.html' %}
+{% load humanize %}
 
 {% block content %}
 
@@ -36,16 +37,16 @@
                     {% for room in plan.room.all %}
                     <tr>
                         <td>
-                            <a href="#">
+                            <a href="{% url 'booking' %}">
                                 <img src="{{ room.image.url }}" style="width:60px;">
                                 {{ room.name }}    
                             </a>
                         </td>
                         <td>
-                            {{ room.roomcharge }} 円～
+                            {{ room.roomcharge|intcomma }} 円～
                         </td>
                         <td>
-                            {{ room.total_amount }} 円～
+                            {{ room.total_amount|intcomma }} 円～
                         </td>
                     </tr>
                     {% endfor %}
