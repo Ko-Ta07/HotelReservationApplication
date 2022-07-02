@@ -2,80 +2,141 @@
 
 {% block content %}
 <h5 class="card-title text-center">予約フォーム</h5>
+
+{% if form.errors %}
+<div class="alert alert-danger">
+    エラーが発生しました。入力内容をご確認ください。
+</div>
+{% endif %}
+
 <form method="post">
     {% csrf_token %}
     <table class="booking_table mb_4">
         <tr>
             <th class="header">宿泊プラン</th>
-            <td class="data">{{ form.stayplan }}</td>
+            <td class="data">
+                {{ form.stayplan }}
+                {{ form.stayplan.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">チェックイン日</th>
-            <td class="data">{{ form.checkindate }}</td>
+            <td class="data">
+                {{ form.checkindate }}
+                {{ form.checkindate.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">泊数</th>
-            <td class="data">{{ form.stay }}</td>
+            <td class="data">
+                {{ form.stay }}
+                {{ form.stay.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">チェックイン予定時間</th>
-            <td class="data">{{ form.checkintime }}</td>
+            <td class="data">
+                {{ form.checkintime }}
+                {{ form.checkintime.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">部屋数</th>
-            <td class="data">{{ form.number_of_rooms }}</td>
+            <td class="data">
+                {{ form.number_of_rooms }}
+                {{ form.number_of_rooms.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">宿泊人数</th>
-            <td class="data">{{ form.number_of_guests }}</td>
+            <td class="data">
+                {{ form.number_of_guests }}
+                {{ form.number_of_guests.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">宿泊者氏名(姓)</th>
-            <td class="data">{{ form.first_name }}</td>
+            <td class="data">
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">宿泊者氏名(名)</th>
-            <td class="data">{{ form.last_name }}</td>
+            <td class="data">
+                {{ form.last_name }}
+                {{ form.last_name.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">宿泊者氏名(姓カナ)</th>
-            <td class="data">{{ form.first_name_kana }}</td>
+            <td class="data">
+                {{ form.first_name_kana }}
+                {{ form.first_name_kana.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">宿泊者氏名(名カナ)</th>
-            <td class="data">{{ form.last_name_kana }}</td>
+            <td class="data">
+                {{ form.last_name_kana }}
+                {{ form.last_name_kana.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">住所(郵便番号)</th>
-            <td class="data">{{ form.post }}</td>
+            <td class="data">
+                {{ form.post }}
+                {{ form.post.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">住所(都道府県)</th>
-            <td class="data">{{ form.prefecture }}</td>
+            <td class="data">
+                {{ form.prefecture }}
+                {{ form.prefecture.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">住所(市町村名・番地)</th>
-            <td class="data">{{ form.address }}</td>
+            <td class="data">
+                {{ form.address }}
+                {{ form.address.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">電話番号</th>
-            <td class="data">{{ form.tel }}</td>
+            <td class="data">
+                {{ form.tel }}
+                {{ form.tel.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">年代</th>
-            <td class="data">{{ form.age }}</td>
+            <td class="data">
+                {{ form.age }}
+                {{ form.age.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">メールアドレス</th>
-            <td class="data">{{ form.email }}</td>
+            <td class="data">
+                {{ form.email }}
+                {{ form.email.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">その他備考欄</th>
-            <td class="data">{{ form.remarks }}</td>
+            <td class="data">
+                {{ form.remarks }}
+                {{ form.remarks.errors }}
+            </td>
         </tr>
         <tr>
             <th class="header">ユーザー名</th>
-            <td class="data">{{ form.loginuser }}</td>
+            <td class="data">
+                {{ form.loginuser }}
+                {{ form.loginuser.errors }}
+            </td>
         </tr>
     </table>
     <div class="button mx-auto">
