@@ -20,7 +20,7 @@
                 <div class="card-body">
                   <h5 class="card-title"></h5>
                   <p class="card-text">【予約受付期間】{{ plan.start_reception }}〜{{ plan.end_reception }}</p>
-                  <p class="card-text">食事: {{ plan.get_meal_display }}  チェックイン: {{ plan.checkin }}~  チェックアウト: ~{{ plan.checkout }}</p>
+                  <p class="card-text">食事: <span class="p-mealType__value">{{ plan.get_meal_display }}</span>  <span class="badge bg-warning text-dark" style="border-radius:unset;">チェックイン</span> {{ plan.checkin }}~  チェックアウト: ~{{ plan.checkout }}</p>
                   <p class="card-text"><small class="text-muted">{{ plan.short_description }}</small></p>
                 </div>
               </div>
