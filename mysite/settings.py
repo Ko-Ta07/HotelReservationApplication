@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'django.contrib.humanize',
+    'sample_confirm_view',
 ]
 
 MIDDLEWARE = [

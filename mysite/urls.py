@@ -10,6 +10,8 @@ urlpatterns = [
     path('', include('app.urls')),
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('allauth.urls')),
+
+    path('sample-confirm-view/', include('sample_confirm_view.urls')),
 ]
 
 if settings.DEBUG:

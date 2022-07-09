@@ -1,0 +1,90 @@
+{% extends 'sample_confirm_view/base.html' %}
+
+{% block content %}
+<div>
+    <h4 class="mb-3">Sample1 確認</h4>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>宿泊プラン</td>
+                <td>{{ form.instance.stayplan }}</td>
+            </tr>
+            <tr>
+                <td>チェックイン日</td>
+                <td>{{ form.instance.checkindate }}</td>
+            </tr>
+            <tr>
+                <td>泊数</td>
+                <td>{{ form.instance.get_stay_display }}</td>
+            </tr>
+            <tr>
+                <td>チェックイン予定時間</td>
+                <td>{{ form.instance.get_checkintime_display }}</td>
+            </tr>
+            <tr>
+                <td>部屋数</td>
+                <td>{{ form.instance.number_of_rooms }}</td>
+            </tr>
+            <tr>
+                <td>宿泊人数</td>
+                <td>{{ form.instance.number_of_guests }}</td>
+            </tr>
+            <tr>
+                <td>宿泊者氏名(姓)</td>
+                <td>{{ form.instance.first_name }}</td>
+            </tr>
+            <tr>
+                <td>宿泊者氏名(名)</td>
+                <td>{{ form.instance.last_name }}</td>
+            </tr>
+            <tr>
+                <td>宿泊者氏名(姓カナ)</td>
+                <td>{{ form.instance.first_name_kana }}</td>
+            </tr>
+            <tr>
+                <td>宿泊者氏名(名カナ)</td>
+                <td>{{ form.instance.last_name_kana }}</td>
+            </tr>
+            <tr>
+                <td>住所(郵便番号)</td>
+                <td>{{ form.instance.post }}</td>
+            </tr>
+            <tr>
+                <td>住所(都道府県)</td>
+                <td>{{ form.instance.get_prefecture_display }}</td>
+            </tr>
+            <tr>
+                <td>住所(市町村名・番地)</td>
+                <td>{{ form.instance.address }}</td>
+            </tr>
+            <tr>
+                <td>電話番号</td>
+                <td>{{ form.instance.tel }}</td>
+            </tr>
+            <tr>
+                <td>年代</td>
+                <td>{{ form.instance.get_age_display }}</td>
+            </tr>
+            <tr>
+                <td>メールアドレス</td>
+                <td>{{ form.instance.email }}</td>
+            </tr>
+            <tr>
+                <td>その他備考欄</td>
+                <td>{{ form.instance.remarks }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <form method="post" style="display:inline;">{% csrf_token %}
+        {% for field in form %}{{ field.as_hidden }}{% endfor %}
+        <input type="hidden" name="step" value="form">
+        <button class="btn btn-secondary" type="submit">戻る</button>
+    </form>
+    <form method="post" style="display:inline;">{% csrf_token %}
+        {% for field in form %}{{ field.as_hidden }}{% endfor %}
+        <input type="hidden" name="step" value="complete">
+        <button class="btn btn-primary" type="submit">完了</button>
+    </form>
+    
+</div>
+{% endblock %}
