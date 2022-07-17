@@ -37,7 +37,7 @@
                     {% for room in plan.room.all %}
                     <tr>
                         <td>
-                            <a href="{% url 'booking' %}">
+                            <a href="{% url 'booking' %}?plan_id={{ plan.pk }}&room_id={{ room.pk }}">
                                 <img src="{{ room.image.url }}" style="width:60px;">
                                 {{ room.name }}    
                             </a>

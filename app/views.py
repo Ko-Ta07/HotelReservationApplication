@@ -1,6 +1,6 @@
 import email
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, FormView
+from django.views.generic import ListView, FormView, View
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -29,45 +29,32 @@ class PlanView(ListView):
 class BookingView(FormView):
     template_name = 'app/booking.html'
     form_class = BookingForm
-    success_url = reverse_lazy('hotel')
+    success_url = reverse_lazy('thanks')
     
+    def get_template_names(self):
+        if self.request.POST.get('step') == 'confirm' and self.get_form().is_valid():
+            return['app/confirm.html']  # return先は合っていますか？
+        else:
+            return['app/booking.html']  # return先は合っていますか？
+        
+        
     def form_valid(self, form):
-        stayplan = form.cleaned_data['stayplan']
-        checkindate = form.cleaned_data['checkindate']
-        stay = form.cleaned_data['stay']
-        checkintime = form.cleaned_data['checkintime']
-        number_of_rooms = form.cleaned_data['number_of_rooms']
-        number_of_guests = form.cleaned_data['number_of_guests']
-        first_name = form.cleaned_data['first_name']
-        last_name = form.cleaned_data['last_name']
-        first_name_kana = form.cleaned_data['first_name_kana']
-        last_name_kana = form.cleaned_data['last_name_kana']
-        post = form.cleaned_data['post']
-        prefecture = form.cleaned_data['prefecture']
-        address = form.cleaned_data['address']
-        tel = form.cleaned_data['tel']
-        age = form.cleaned_data['age']
-        email = form.cleaned_data['email']
-        remarks = form.cleaned_data['remarks']
-        loginuser = form.cleaned_data['loginuser']
-        Booking.objects.create(
-            stayplan=stayplan,
-            checkindate=checkindate,
-            stay=stay,
-            checkintime=checkintime,
-            number_of_rooms=number_of_rooms,
-            number_of_guests=number_of_guests,
-            first_name=first_name,
-            last_name=last_name,
-            first_name_kana=first_name_kana,
-            last_name_kana=last_name_kana,
-            post=post,
-            prefecture=prefecture,
-            address=address,
-            tel=tel,
-            age=age,
-            email=email,
-            remarks=remarks,
-            loginuser=loginuser,
-        )
+        if self.request.POST['step'] != 'thanks':  # ここでエラーになって落ちてしまいます..
+            return self.render_to_response(self.get_context_data(form=form))
+        
+        data = form.cleaned_data
+        obj = Booking(**data)
+        obj.save()
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        plan_id = self.request.GET.get('plan_id')
+        print(plan_id)
+        context['plan'] = BookingPlan.objects.get(pk=plan_id)
+        return context
+
+    
+class ThanksView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'app/thanks.html')    

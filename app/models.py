@@ -1,5 +1,6 @@
 from accounts.models import CustomUser
 from django.db import models
+import datetime
 
 # 宿泊施設情報モデルクラス
 class Hotel(models.Model):
@@ -54,12 +55,12 @@ class BookingPlan(models.Model):
     
 # 予約フォームモデルクラス
 class Booking(models.Model):
-    STAYDAY_CHOICES = [('1','1泊'), ('2','2泊'), ('3','3泊'), ('4','4泊'), 
-                       ('5','5泊'), ('6','6泊'), ('7','7泊'), ('8','8泊'), ('9','9泊'),]
+    STAYDAY_CHOICES = [(1,'1泊'), (2,'2泊'), (3,'3泊'), (4,'4泊'), 
+                       (5,'5泊'), (6,'6泊'), (7,'7泊'), (8,'8泊'), (9,'9泊'),]
     
-    CHECKIN_TIME_CHOICES = [('14:00','14:00'), ('15:00','15:00'), ('16:00','16:00'), ('17:00','17:00'),
-                            ('18:00','18:00'), ('19:00','19:00'), ('20:00','20:00'), ('21:00','21:00'), 
-                            ('22:00','22:00'), ('23:00','23:00'), ('24:00','24:00')]
+    CHECKIN_TIME_CHOICES = [(datetime.time(14, 0),'14:00'), (datetime.time(15, 0),'15:00'), (datetime.time(16, 0),'16:00'), (datetime.time(17, 0),'17:00'),
+                            (datetime.time(18, 0),'18:00'), (datetime.time(19, 0),'19:00'), (datetime.time(20, 0),'20:00'), (datetime.time(21, 0),'21:00'), 
+                            (datetime.time(22, 0),'22:00'), (datetime.time(23, 0),'23:00'), ]#(datetime.time(24, 0),'24:00')]
     
     PREF_CHOICES = [(1,'北海道'), (2,'青森県'), (3,'岩手県'), (4,'宮城県'), (5,'秋田県'),
                     (6,'山形県'), (7,'福島県'), (8,'茨城県'), (9,'栃木県'), (10,'群馬県'),
@@ -72,9 +73,9 @@ class Booking(models.Model):
                     (41,'佐賀県'), (42,'長崎県'), (43,'熊本県'), (44,'大分県'), (45,'宮崎県'),
                     (46,'鹿児島県'), (47,'沖縄県')]
     
-    AGE_CHOICES = [('10-17','10-17才'), ('18-19','18-19才'), ('20-24','20-24才'), ('25-29','25-29才'),
-                   ('30-34','30-34才'), ('35-39','35-39才'), ('40-49','40-49才'), ('50-59','50-59才'),
-                   ('60','60才以上'),]
+    AGE_CHOICES = [(1,'10-17才'), (2,'18-19才'), (3,'20-24才'), (4,'25-29才'),
+                   (5,'30-34才'), (6,'35-39才'), (7,'40-49才'), (8,'50-59才'),
+                   (9,'60才以上'),]
     
     stayplan = models.ForeignKey(BookingPlan, verbose_name='宿泊プラン', on_delete=models.CASCADE)
     checkindate = models.DateField(verbose_name='チェックイン日')
@@ -96,4 +97,4 @@ class Booking(models.Model):
     loginuser = models.ForeignKey(CustomUser, blank=True, null=True, on_delete=models.CASCADE) 
    
     def __str__(self):
-        return self.stayplan
+        return self.first_name + self.last_name

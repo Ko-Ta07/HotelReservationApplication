@@ -15,8 +15,12 @@
         <tr>
             <th class="header">宿泊プラン</th>
             <td class="data">
+                {{ plan.planname }}
+                <input type="hidden" name="{{ form.stayplan.name }}" value="{{ plan.pk }}">
+                {% comment %}
                 {{ form.stayplan }}
                 {{ form.stayplan.errors }}
+                {% endcomment %}
             </td>
         </tr>
         <tr>
@@ -86,6 +90,8 @@
             <th class="header">住所(郵便番号)</th>
             <td class="data">
                 {{ form.post }}
+                <button id="search" type="button">住所検索</button>
+                <p id="error"></p>
                 {{ form.post.errors }}
             </td>
         </tr>
@@ -131,16 +137,48 @@
                 {{ form.remarks.errors }}
             </td>
         </tr>
-        <tr>
-            <th class="header">ユーザー名</th>
-            <td class="data">
-                {{ form.loginuser }}
-                {{ form.loginuser.errors }}
-            </td>
-        </tr>
+        {% if user.is_authenticated %}
+        <input type="hidden" name="{{ form.loginuser.name }}" value="{{ user.pk }}">
+        {% endif %}
     </table>
     <div class="button mx-auto">
         <button class="btn btn-lg btn-warning btn-block" type="submit">確認画面へ進む</button>
     </div>
 </form>
+
+<script src="https://cdn.jsdelivr.net/npm/fetch-jsonp@1.1.3/build/fetch-jsonp.min.js"></script>
+<script>
+    let search = document.getElementById('search');
+    search.addEventListener('click', ()=>{
+    
+        let api = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode=';
+        let error = document.getElementById('error');
+        let input = document.getElementById('id_post');
+        let address1 = document.getElementById('id_prefecture');
+        let address2 = document.getElementById('id_address');
+        let param = input.value.replace("-",""); //入力された郵便番号から「-」を削除
+        let url = api + param;
+    
+        fetchJsonp(url, {
+            timeout: 10000, //タイムアウト時間
+        })
+        .then((response)=>{
+            error.textContent = ''; //HTML側のエラーメッセージ初期化
+            return response.json();  
+        })
+        .then((data)=>{
+            if(data.status === 400){ //エラー時
+                error.textContent = data.message;
+            }else if(data.results === null){
+                error.textContent = '郵便番号から住所が見つかりませんでした。';
+            } else {
+                address1.value = data.results[0].address1;
+                address2.value = data.results[0].address2 + data.results[0].address3;
+            }
+        })
+        .catch((ex)=>{ //例外処理
+            console.log(ex);
+        });
+    }, false);
+</script>
 {% endblock %}
