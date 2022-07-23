@@ -173,7 +173,7 @@
             }else if(data.results === null){
                 error.textContent = '郵便番号から住所が見つかりませんでした。';
             } else {
-                address1.value = data.results[0].address1;
+                address1.value = data.results[0].prefcode;
                 address2.value = data.results[0].address2 + data.results[0].address3;
             }
         })
