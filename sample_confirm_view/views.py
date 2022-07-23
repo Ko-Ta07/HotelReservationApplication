@@ -1,6 +1,8 @@
+import json
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, View
 from formtools.wizard.views import SessionWizardView
 from app.forms import BookingForm
 from sample_confirm_view.forms import DummyForm
@@ -76,4 +78,27 @@ class Sample2CompleteView(TemplateView):
 
 
 class Sample3View(FormView):
-    pass
+    """
+    Bootstrap の Modal を使っ角確認画面
+    """
+    form_class = BookingForm
+    template_name = 'sample_confirm_view/sample3/form.html'
+    success_url = reverse_lazy('sample_confirm_view:sample3_complete')  # 完了画面
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class Sample3FormValidView(View):
+    def post(self, request):
+        post_data = json.loads(request.body)
+        form = BookingForm(post_data)
+        result = form.is_valid()
+
+        return JsonResponse({'result': result, 'post_data': post_data})
+
+
+class Sample3CompleteView(TemplateView):
+    template_name = 'sample_confirm_view/sample3/complete.html'
+
+

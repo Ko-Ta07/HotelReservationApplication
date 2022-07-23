@@ -6,10 +6,10 @@
 <div class="alert alert-danger">エラーが発生しました。</div>
 {% endif %}
 <form action="" method="post" novalidate>{% csrf_token %}
-<table class="table">
-{{ wizard.management_form }}
-{{ wizard.form }}
-</table>
-<button class="btn btn-primary">確認画面へ</button>
+    <table class="table">
+        {{ wizard.management_form }}
+        {{ wizard.form }}
+    </table>
+    <button class="btn btn-primary">確認画面へ</button>
 </form>
 {% endblock %}

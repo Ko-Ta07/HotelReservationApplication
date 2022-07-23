@@ -1,0 +1,83 @@
+{% extends 'sample_confirm_view/base.html' %}
+
+{% block content %}
+{% if form.errors %}
+<div class="alert alert-danger">エラーが発生しました。</div>
+{% endif %}
+<div>
+    <h4 class="mb-3">Sample3 BootStrap Modal を使った確認画面の実装</h4>
+    <form id="sample3" class="needs-validation" novalidate method="post">{% csrf_token %}
+        <table class="table mb-3">
+            <tbody>
+                {{ form.as_table }}
+            </tbody>
+        </table>
+        <button id="confirm" class="btn btn-primary" type="button">確認画面へ</button>
+    </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">確認画面</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table id="confirm-table" class="table"></table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">戻る</button>
+          <button id="complete" type="button" class="btn btn-primary">完了</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    const confirm = document.getElementById('confirm');
+    const csrfToken = '{{ csrf_token }}';
+
+    confirm.addEventListener('click', () => {
+        const form = document.forms.sample3;
+        const formData = new FormData(form);
+        let data = {};
+        for (let obj of formData) {
+            data[obj[0]] = obj[1];
+        }
+        fetch('/sample-confirm-view/sample3/form-valid/', {
+            method: 'POST',
+            headers: { "X-CSRFToken": csrfToken },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            return response.json();
+        }).then(data => {
+            if (data.result === true) {
+                const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                const table = document.getElementById('confirm-table');
+                for (const [key, value] of Object.entries(data.post_data)) {
+                    const tr = document.createElement('tr');
+                    const th = document.createElement('th');
+                    const td = document.createElement('td');
+                    th.textContent = key;
+                    td.textContent = value;
+                    tr.appendChild(th);
+                    tr.appendChild(td);
+                    table.appendChild(tr);
+                }
+                myModal.show();
+            } else {
+                form.submit();
+            }
+        });
+    });
+
+    const complete = document.getElementById('complete');
+    complete.addEventListener('click', () => {
+        form.submit();
+    });
+</script>
+{% endblock %}
