@@ -2,3 +2,4 @@ Django
 django-allauth
 django-widget-tweaks
 Pillow
+pytz

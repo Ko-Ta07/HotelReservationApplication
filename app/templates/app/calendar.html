@@ -1,0 +1,45 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+<div class="text-center my-5">
+    <div class="mb-3">
+        <h1>予約カレンダー</h1>
+        <p>{{ target_date|date:"Y年n月" }}</p>
+    </div>
+    <div class="d-flex mb-2">
+        <div class="mx-3 mr-auto">
+            <a href="{% url 'calendar' planname_data.pk before.year before.month before.day %}" class="btn btn-warning">{{ previous_month }}月</a>
+        </div>
+        <div class="mx-3">
+            <a href="{% url 'calendar' planname_data.pk next.year next.month next.day %}" class="btn btn-warning">{{ next_month }}月</a>
+        </div>
+    </div>
+    
+    {{ calendar_html|safe }}
+            <tbody>
+                {% for hour, schedules in calendar.items %}
+                    <tr>
+                        <td scope="row">{{ hour }}:00</td>
+                        {% for datetime, book in schedules.items %}
+                            <td>
+                                {% if datetime <= today %}
+                                    -
+                                {% elif book %}
+                                    {# <a href='{% url "booking" staff_data.pk datetime.year datetime.month datetime.day hour %}'> #}
+                                    <a href='{% url "booking" plan_id %}'>
+                                        <i class="far fa-circle text-info"></i>
+                                    </a>
+                                {% else %}
+                                    <i class="fas fa-times text-danger"></i>
+                                {% endif %}
+                            </td>
+                        {% endfor %}    
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock%}
